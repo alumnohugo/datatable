@@ -1,11 +1,11 @@
 <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-        <a class="navbar-brand" href="#">Menú Principal</a>
+        <a class="navbar-brand" href="/datatable/menu">Menú Principal</a>
     
         <!-- Enlaces del menú -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#enlace1">Datatable</a>
+                    <a class="nav-link" href="/datatable/clientes">Datatable</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#enlace2">Estadistica</a>

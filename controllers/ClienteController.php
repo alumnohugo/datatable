@@ -7,11 +7,16 @@ use MVC\Router;
 
 class ClienteController{
     public static function index(Router $router) {
+      
+        
+    if(isset($_SESSION['auth_user'])){
         $router->render('clientes/index', []);
-// ================hasta aqui se puede ver la tabla sin ejecutarse acciones         
-    
+    }else{
+        header('Location: /datatable/');
     }
-
+// ================hasta aqui se puede ver la tabla sin ejecutarse acciones         
+    }
+ 
     public static function guardarApi(){
      
         try {
@@ -49,11 +54,11 @@ class ClienteController{
 
         $sql = "SELECT * FROM clientes where cliente_situacion = 1 ";
         if ($cliente_nombre != '') {
-            $sql .= " and cliente_nombre like '%$cliente_nombre%' ";
+            $sql .= " and LOWER(cliente_nombre) like LOWER ('%$cliente_nombre%') ";
         }
 
         if ($cliente_nit != '') {
-            $sql .= " and cliente_nit like '%$cliente_nit%' ";
+            $sql .= " and LOWER (cliente_nit) like LOWER ('%$cliente_nit%') ";
         }
         
         

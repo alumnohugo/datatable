@@ -11,7 +11,7 @@ class LoginController {
         if(!isset($_SESSION['auth_user'])){
             $router->render('login/index', []);
         }else{
-            header('Location: /datatable/menu');
+            header('Location: /datatable/menu')||header('Location: /datatable/clientes');
         }
     }
     public static function menu(Router $router){
