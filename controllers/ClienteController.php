@@ -7,7 +7,7 @@ use MVC\Router;
 
 class ClienteController{
     public static function index(Router $router) {
-        $router->render('clientes/datatable', []);
+        $router->render('clientes/index', []);
 // ================hasta aqui se puede ver la tabla sin ejecutarse acciones         
     
     }
@@ -42,23 +42,27 @@ class ClienteController{
    
     public static function buscarApi()
     {
-        // $armas = arma::all();
+        // $cliente = Cliente::all();
         $cliente_nombre = $_GET['cliente_nombre'];
         $cliente_nit = $_GET['cliente_nit'];
        
 
-        $sql = "SELECT * FROM clientes where cliente_situaciion = 1 ";
+        $sql = "SELECT * FROM clientes where cliente_situacion = 1 ";
         if ($cliente_nombre != '') {
             $sql .= " and cliente_nombre like '%$cliente_nombre%' ";
+        }
+
+        if ($cliente_nit != '') {
+            $sql .= " and cliente_nit like '%$cliente_nit%' ";
         }
         
         
         try {
             
-            $armas = Arma::fetchArray($sql);
+            $cliente = Cliente::fetchArray($sql);
             header('Content-Type: application/json');
 
-            echo json_encode($armas);
+            echo json_encode($cliente);
         } catch (Exception $e) {
             echo json_encode([
                 'detalle' => $e->getMessage(),
@@ -71,10 +75,10 @@ class ClienteController{
     public static function modificarApi(){
      
         try {
-            $arma = new Arma($_POST);
+            $cliente = new Cliente($_POST);
             // $resultado = $arma->crear();
 
-            $resultado = $arma->actualizar();
+            $resultado = $cliente -> actualizar();
 
             if ($resultado['resultado'] == 1) {
                 echo json_encode([
@@ -101,10 +105,10 @@ class ClienteController{
     public static function eliminarApi(){
      
         try {
-            $arma_id = $_POST['arma_id'];
-            $arma = Arma::find($arma_id);
-            $arma->arma_situacion = 0;
-            $resultado = $arma->actualizar();
+            $cliente_id = $_POST['cliente_id'];
+            $cliente=  Cliente::find($cliente_id);
+            $cliente ->cliente_situacion = 0;
+            $resultado = $cliente ->actualizar();
 
             if ($resultado['resultado'] == 1) {
                 echo json_encode([
