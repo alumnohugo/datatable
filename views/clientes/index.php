@@ -1,9 +1,24 @@
-
-
+<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
+        <a class="navbar-brand" href="/datatable/menu">Menú Principal</a>
+    
+        <!-- Enlaces del menú -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/datatable/clientes">Datatable</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#enlace2">Estadistica</a>
+                </li>
+            </ul>
+        </div>
+        <a href="/datatable/logout" class="btn btn-danger">Cerrar sesión</a>
+    </nav>
 <h1 class="text-center">Formulario de Clientes</h1>
+
 <div class="row justify-content-center mb-5">
     <form class="col-lg-8 border bg-light p-3" id="formularioClientes">
-        <input type="text" name="cliente_id" id="cliente_id">
+        <input type="hidden" name="cliente_id" id="cliente_id">
         <div class="row mb-3">
             <div class="col">
                 <label for="cliente_nombre">Ingrese el nombre del cliente</label>
