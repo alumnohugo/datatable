@@ -16,6 +16,8 @@ btnModificar.parentElement.style.display = 'none'
 btnCancelar.disabled = true
 btnCancelar.parentElement.style.display = 'none'
 
+
+
 let contador = 1;
 const datatable = new Datatable('#tablaClientes', {
     language : lenguaje,
@@ -50,69 +52,17 @@ const datatable = new Datatable('#tablaClientes', {
             orderable : false,
             render : (data, type, row, meta) => `<button class="btn btn-danger" data-id='${data}' >Eliminar</button>`
         },
-
+        
     ]
 })
 
-const guardar = async (evento) => {
-    evento.preventDefault();
-    if (!validarFormulario(formulario, ['cliente_id'])) {
-        Toast.fire({
-            icon: 'info',
-            text: 'Debe llenar todos los datos'
-        })
-        return
-    }
-
-    const body = new FormData(formulario)
-    body.delete('cliente_id')
-    const url = '/datatable/API/clientes/guardar';
-    const headers = new Headers();
-    headers.append("X-Requested-With","fetch");
-    const config = {
-        method: 'POST',
-        // body: otroNombre
-        body
-    }
-
-    try {
-        const respuesta = await fetch(url, config)
-        const data = await respuesta.json();
-
-        // console.log(data);
-        // return
-
-        const { codigo, mensaje, detalle } = data;
-        let icon = 'info'
-        switch (codigo) {
-            case 1:
-                formulario.reset();
-                icon = 'success'
-                buscar();
-                break;
-
-            case 0:
-                icon = 'error'
-                console.log(detalle)
-                break;
-
-            default:
-                break;
-        }
-
-        Toast.fire({
-            icon,
-            text: mensaje
-        })
-
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 const buscar = async () => {
 
-    const url = `/datatable/API/clientes/buscar`;
+    let cliente_nombre = formulario.cliente_nombre.value;
+    let cliente_nit = formulario.cliente_nit.value;
+    const url = `/datatable/API/clientes/buscar?cliente_nombre=${cliente_nombre}&cliente_nit=${cliente_nit}`;
+    // const url = `/datatable/API/clientes/buscar`;
+    
     const config = {
         method : 'GET'
     }
@@ -124,7 +74,9 @@ const buscar = async () => {
         console.log(data);
         datatable.clear().draw()
         if(data){
+            contador = 1;
             datatable.rows.add(data).draw();
+            
         }else{
             Toast.fire({
                 title : 'No se encontraron registros',
@@ -136,6 +88,59 @@ const buscar = async () => {
         console.log(error);
     }
 }
+const guardar = async (evento) => {
+    evento.preventDefault();
+    if (!validarFormulario(formulario, ['cliente_id'])) {
+        Toast.fire({
+            icon: 'info',
+            text: 'Debe llenar todos los datos'
+        });
+        return;
+    }
+
+    const body = new FormData(formulario);
+    body.delete('cliente_id');
+    const url = '/datatable/API/clientes/guardar';
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+    const config = {
+        method: 'POST',
+        body
+    };
+
+    try {
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+
+        const { codigo, mensaje, detalle } = data;
+        let icon = 'info';
+        switch (codigo) {
+            case 1:
+                formulario.reset();
+                icon = 'success';
+                buscar();
+                break;
+
+            case 0:
+                icon = 'error';
+                console.log(detalle);
+                break;
+
+            default:
+                break;
+        }
+        Toast.fire({
+            icon,
+            text: mensaje
+        });
+    } catch (error) {
+        console.log(error);
+        
+        }
+}
+
+
+
 
 const traeDatos = (e) => {
     const button = e.target;
@@ -147,10 +152,59 @@ const traeDatos = (e) => {
 }
 
 
-const eliminar = e => {
+const eliminar = async (e) => {
     const button = e.target;
-    const id = button.dataset.id
-    console.log(id);
+    const id = button.dataset.id;
+    // console.log(id);
+    if (await confirmacion('warning', 'Desea elminar este registro?')) {
+        const body = new FormData()
+        body.append('cliente_id', id)
+        const url = '/datatable/API/clientes/eliminar';
+        const headers = new Headers();
+        headers.append("X-Requested-With","fetch");
+        const config = {
+            method: 'POST',
+            body
+        }
+        try {
+            const respuesta = await fetch(url, config)
+            const data = await respuesta.json();
+            // console.log(data);
+            // return;
+
+
+            const { codigo, mensaje, detalle } = data;
+            let icon = 'info'
+            switch (codigo) {
+                case 1:
+                    // formulario.reset();
+                    icon = 'success'
+                    buscar();
+                    // cancelarAccion();
+                    break;
+
+                case 0:
+                    icon = 'error'
+                    console.log(detalle)
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon,
+                text: mensaje
+            })
+
+
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 }
 
 buscar();
@@ -181,6 +235,6 @@ const colocarDatos = (datos) => {
 
 
 formulario.addEventListener('submit', guardar)
-// btnBuscar.addEventListener('click', buscar)
+btnBuscar.addEventListener('click', buscar)
 datatable.on('click','.btn-warning', traeDatos )
 datatable.on('click','.btn-danger', eliminar )
