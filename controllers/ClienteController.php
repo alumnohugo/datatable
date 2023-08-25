@@ -7,16 +7,16 @@ use MVC\Router;
 
 class ClienteController{
     public static function index(Router $router) {
-      
-        
+              
     if(isset($_SESSION['auth_user'])){
         $router->render('clientes/index', []);
     }else{
         header('Location: /datatable/');
     }
-// ================hasta aqui se puede ver la tabla sin ejecutarse acciones         
+       
     }
- 
+
+
     public static function guardarApi(){
      
         try {
