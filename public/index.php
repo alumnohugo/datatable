@@ -6,7 +6,7 @@ use MVC\Router;
 use Controllers\AppController;
 use Controllers\LoginController;
 use Controllers\ClienteController;
-
+use Model\Cliente;
 
 $router = new Router();
 $router->setBaseURL('/' . $_ENV['APP_NAME']);
