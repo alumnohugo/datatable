@@ -6,6 +6,7 @@ use MVC\Router;
 use Controllers\AppController;
 use Controllers\LoginController;
 use Controllers\ClienteController;
+use Controllers\DetalleController;
 use Model\Cliente;
 
 $router = new Router();
@@ -21,6 +22,9 @@ $router->get('/API/clientes/buscar', [ClienteController::class,'buscarApi']);
 $router->post('/API/clientes/guardar', [ClienteController::class,'guardarApi']);
 $router->post('/API/clientes/modificar', [ClienteController::class,'modificarApi']);
 $router->post('/API/clientes/eliminar', [ClienteController::class,'eliminarApi']);
+
+$router->get('/clientes/estadistica', [DetalleController::class,'estadistica']);
+$router->get('/API/clientes/estadistica', [DetalleController::class,'detalleComprasAPI']);
 
 
 
