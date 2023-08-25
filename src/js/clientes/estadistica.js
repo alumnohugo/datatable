@@ -7,7 +7,7 @@ const context = canvas.getContext('2d');
 
 
 const chartVentas = new Chart(context, {
-    type : 'bar',
+    type : 'pie',
     data : {
         labels : [],
         datasets : [
@@ -54,9 +54,8 @@ const getEstadisticas = async () => {
         if(data){
 
             data.forEach( registro => {
-                chartVentas.data.labels.push(registro.producto)
-                chartVentas.data.datasets[0].data.push(registro.cantidad)
-                chartVentas.data.datasets[0].data.push(registro.cliente)
+                chartVentas.data.labels.push(registro.nombre)
+                chartVentas.data.datasets[0].data.push(registro.cantidad_compras)
                 chartVentas.data.datasets[0].backgroundColor.push(getRandomColor())
             });
 

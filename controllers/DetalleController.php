@@ -10,31 +10,27 @@ class DetalleController
 {
     public static function estadistica(Router $router)
     {
-        $router->render('clientes/estadistica', []);
+        // $router->render('clientes/estadistica', []);
+        if(!isset($_SESSION['auth_user'])){
+            $router->render('login/index', []);
+        }else{
+            $router->render('clientes/estadistica', []);
+        }
     }
 
     public static function detalleComprasAPI()
     {
 
-        $sql = "SELECT
-        c.cliente_nombre AS cliente,
-        p.producto_nombre AS producto,
-        SUM(dv.detalle_cantidad) AS cantidad
-    FROM
-        clientes c
-    INNER JOIN
-        ventas v ON c.cliente_id = v.venta_cliente
-    INNER JOIN
-        detalle_ventas dv ON v.venta_id = dv.detalle_venta
-    INNER JOIN
-        productos p ON dv.detalle_producto = p.producto_id
-    WHERE
-        dv.detalle_situacion = '1'
-        AND v.venta_situacion = '1'
-    GROUP BY
-        c.cliente_id, c.cliente_nombre, p.producto_id, p.producto_nombre
-    ORDER BY
-        c.cliente_nombre, p.producto_nombre ";
+        $sql = "SELECT c.cliente_nombre AS nombre,
+        COUNT(*) AS cantidad_compras
+ FROM clientes c
+ LEFT JOIN ventas v ON c.cliente_id = v.venta_cliente
+ LEFT JOIN detalle_ventas dv ON v.venta_id = dv.detalle_venta
+ WHERE c.cliente_situacion = '1'
+   AND dv.detalle_situacion = '1'
+   AND v.venta_situacion = '1'
+ GROUP BY c.cliente_id, nombre
+ ORDER BY cantidad_compras DESC ";
 
         try {
 

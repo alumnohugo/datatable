@@ -8,7 +8,7 @@
                     <a class="nav-link" href="/datatable/clientes">Datatable</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#enlace2">Estadistica</a>
+                    <a class="nav-link" href="/datatable/clientes/estadistica">Estadistica</a>
                 </li>
             </ul>
         </div>
@@ -48,10 +48,10 @@
     </form>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col table-responsive" >
+<div class="row justify-content-center ">
+    <div class="col table-responsive" style="max-width: 70%; padding: 10px;" >
        
-        <table id="tablaClientes" class="table table-bordered table-hover">
+        <table id="tablaClientes" class="table table-bordered table-hover  ">
         </table>
     </div>
 </div>
