@@ -8,7 +8,7 @@
                 <a class="nav-link" href="/datatable/clientes">Datatable</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/datatable/clientes/estadistica">Estadistica</a>
+                <a class="nav-link" href="/datatable/usuarios/estadistica">Estadistica</a>
             </li>
         </ul>
     </div>
